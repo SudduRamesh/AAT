@@ -1,0 +1,47 @@
+{% extends "index.html" %}
+{% import "bootstrap/wtf.html" as wtf%}
+{% block content %}
+
+<div class="col-md-12 bg-white">
+  <div class="container">
+    <br>
+    <br>
+        <H3>Dummy Account List</H3>
+        <br>
+        
+        {% if users %}
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">UID</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Status</th>
+                <th scope="col">Email</th>
+                <th scope="col">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <form method="POST" class="row g-3">
+                {{ form.csrf_token }}
+                {% for user in users %}
+
+                  <tr>
+                    <td scope="row">{{ loop.index }} </td>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.first_name}}</td>
+                    <td>{{ user.last_name}}</td>
+                    <td>{{ user.access_type}}</td>
+                    <td>{{ user.email}}</td>
+                    <td><a class="btn btn-danger rounded-0 " href="{{ url_for('delete',option='user', id=user.id) }}">Delete</a></td>
+                  </tr>            
+                {% endfor %}
+              </form>      
+            </tbody>
+          </table>
+
+        {% endif%}
+  </div>
+</div>
+{% endblock content %}

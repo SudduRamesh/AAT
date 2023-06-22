@@ -1,0 +1,54 @@
+<script>
+    //Add Sorting to the table _____________________________________________________________________________
+    $(document).ready(function() {
+        $('.table').DataTable({
+            "pageLength": 25,
+            "order": [[5, "desc"]] // "2" represents the index of the "Created" column, "desc" stands for descending order
+        });
+    });
+</script>
+<!-- Questions list Table -->
+<br>
+<table class="table table-bordered table-striped">
+    <br>
+    <thead>
+        <tr>
+            <th class="text-center" scope="col">#</th>
+            <th class="text-center" >ID</th>
+            <th class="text-center" >Question</th>
+            <th class="text-center" >Type</th>
+            <th class="text-center" >Module</th>
+            <th class="text-center" >level</th>
+            <th class="text-center" >Created</th>
+            <th class="text-center" >Modify</th>
+            <th class="text-center" >Created By</th> 
+            <th class="text-center" >More</th>                        
+        </tr>
+    </thead>
+    <tbody>
+        {% for question in questions %}  
+            <tr>
+                <td class="text-center" scope="row">{{ loop.index }} </td>
+                <td class="text-center">{{ question.id }}</td>
+                <td>{{ question.question }}</td>
+                {% if question.category == "single" %}
+                    <td class="text-center" >Single Choice</td>
+                {% else %}
+                    <td class="text-center" >Multiple choice</td>
+                {% endif %}
+                <td class="text-center" >{{ question.module_code }}</td>
+                {% if question.level == '3' %}
+                    <td class="text-center" >Hard</td>
+                {% elif question.level == '2' %}
+                    <td class="text-center" >Medium</td>
+                {% else %}
+                    <td class="text-center" >Easy</td>
+                {% endif%}
+                <td class="text-center" >{{ question.created_date }}</td>
+                <td class="text-center" >{{ question.modify_date }}</td>
+                <td>{{ question.first_name }} {{ question.last_name }}</td>
+                <td class="text-center" ><a href="{{ url_for('edit_question', question_id=question.id) }}" class="nav-link active text-primary text-center" >Edit</a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
